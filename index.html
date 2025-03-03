@@ -21,6 +21,7 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            overflow: hidden; /* Убираем полосы прокрутки */
         }
 
         .container {
@@ -86,8 +87,8 @@
         }
 
         .photo-frame {
-            width: 180px;
-            height: 180px;
+            width: 120px;
+            height: 120px;
             border-radius: 10px;
             overflow: visible;
             border: 3px solid #ff6f61;
@@ -161,36 +162,24 @@
             }
         }
 
-        /* Стили для сердечка */
-        .heart-container {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 100;
-            text-align: center;
-        }
-
-        .heart {
-            font-size: 10rem;
+        /* Стили для летящих сердец */
+        .heart-animation {
+            position: absolute;
+            font-size: 2rem;
             color: #ff6f61;
-            animation: heartbeat 1.5s infinite;
+            pointer-events: none;
+            animation: flyUpAndFade 3s ease-in-out forwards;
         }
 
-        @keyframes heartbeat {
-            0%, 100% {
-                transform: scale(1);
+        @keyframes flyUpAndFade {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
             }
-            50% {
-                transform: scale(1.2);
+            100% {
+                transform: translateY(-100vh) scale(0.5);
+                opacity: 0;
             }
-        }
-
-        .heart-message {
-            font-size: 1.5rem;
-            color: #ff6f61;
-            margin-top: 20px;
         }
     </style>
 </head>
@@ -206,26 +195,18 @@
             <div class="photo-frame"><img src="3.jpg" alt="Полина Мельникова"></div>
         </section>
 
-        <h2>101 тюльпан тебе</h2>
+        <h2>Найди нужный тюльпан среди 101!</h2>
 
         <div class="flowers" id="flowersContainer"></div>
-
-        <p>Один тюльпан особенный!</p>
 
         <footer>
             <p>created by <span class="signature">babycar97🚗</span></p>
         </footer>
-
-        <!-- Контейнер для сердечка -->
-        <div class="heart-container" id="heartContainer">
-            <div class="heart">❤️</div>
-        </div>
     </div>
 
     <script>
         // Создаем контейнер для цветов
         const flowersContainer = document.getElementById('flowersContainer');
-        const heartContainer = document.getElementById('heartContainer');
         const totalFlowers = 101; // Количество цветов
         const flowerSymbol = '🌷'; // Символ цветка
 
@@ -244,7 +225,7 @@
                 // Если это случайный цветок, делаем его ссылкой
                 if (i === randomIndex) {
                     flowerSpan.style.cursor = 'pointer';
-                    flowerSpan.addEventListener('click', showHeart);
+                    flowerSpan.addEventListener('click', spawnHearts);
                 }
 
                 // Добавляем цветок в контейнер
@@ -252,9 +233,32 @@
             }
         }
 
-        // Функция для показа сердечка
-        function showHeart() {
-            heartContainer.style.display = 'block';
+        // Функция для создания летящих сердец
+        function spawnHearts(event) {
+            const heartCount = 20; // Количество сердец
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.textContent = '❤️';
+                heart.classList.add('heart-animation');
+
+                // Позиционируем сердце относительно клика
+                const x = event.clientX;
+                const y = event.clientY;
+                heart.style.left = `${x}px`;
+                heart.style.top = `${y}px`;
+
+                // Добавляем случайные смещения и задержки
+                heart.style.animationDelay = `${Math.random() * 2}s`;
+                heart.style.transform = `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px)`;
+
+                // Добавляем сердце в body
+                document.body.appendChild(heart);
+
+                // Удаляем сердце после завершения анимации
+                heart.addEventListener('animationend', () => {
+                    heart.remove();
+                });
+            }
         }
 
         // Вызываем функцию для создания цветов
