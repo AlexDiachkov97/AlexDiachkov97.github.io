@@ -21,7 +21,6 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            overflow: hidden; /* Убираем полосы прокрутки */
         }
 
         .container {
@@ -87,8 +86,8 @@
         }
 
         .photo-frame {
-            width: 120px;
-            height: 120px;
+            width: 180px;
+            height: 180px;
             border-radius: 10px;
             overflow: visible;
             border: 3px solid #ff6f61;
@@ -162,24 +161,44 @@
             }
         }
 
-        /* Стили для летящих сердец */
-        .heart-animation {
-            position: absolute;
-            font-size: 2rem;
-            color: #ff6f61;
-            pointer-events: none;
-            animation: flyUpAndFade 3s ease-in-out forwards;
+        /* Стили для сердечка */
+        .heart-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            text-align: center;
         }
 
-        @keyframes flyUpAndFade {
-            0% {
-                transform: translateY(0) scale(1);
-                opacity: 1;
+        .heart {
+            font-size: 15rem;
+            color: #ff6f61;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        .heart_t {
+            font-size: 10rem;
+            color: #ff6f61;
+            animation: heartbeat 1.5s infinite;
+            background: white;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
             }
-            100% {
-                transform: translateY(-100vh) scale(0.5);
-                opacity: 0;
+            50% {
+                transform: scale(1.2);
             }
+        }
+
+        .heart-message {
+            font-size: 5rem;
+            color: rgba(255, 255, 255, 0.95);
+            margin-top: 20px;
+            background: #ff6f61;
         }
     </style>
 </head>
@@ -195,18 +214,27 @@
             <div class="photo-frame"><img src="3.jpg" alt="Полина Мельникова"></div>
         </section>
 
-        <h2>Найди нужный тюльпан среди 101!</h2>
+        <h2>101 тюльпан тебе</h2>
 
         <div class="flowers" id="flowersContainer"></div>
+
+        <p>Один тюльпан особенный!</p>
 
         <footer>
             <p>created by <span class="signature">babycar97🚗</span></p>
         </footer>
+
+        <!-- Контейнер для сердечка -->
+        <div class="heart-container" id="heartContainer">
+            <div class="heart">❤️</div>
+            <div class="heart-message">Победа</div>
+        </div>
     </div>
 
     <script>
         // Создаем контейнер для цветов
         const flowersContainer = document.getElementById('flowersContainer');
+        const heartContainer = document.getElementById('heartContainer');
         const totalFlowers = 101; // Количество цветов
         const flowerSymbol = '🌷'; // Символ цветка
 
@@ -225,7 +253,7 @@
                 // Если это случайный цветок, делаем его ссылкой
                 if (i === randomIndex) {
                     flowerSpan.style.cursor = 'pointer';
-                    flowerSpan.addEventListener('click', spawnHearts);
+                    flowerSpan.addEventListener('click', showHeart);
                 }
 
                 // Добавляем цветок в контейнер
@@ -233,32 +261,9 @@
             }
         }
 
-        // Функция для создания летящих сердец
-        function spawnHearts(event) {
-            const heartCount = 20; // Количество сердец
-            for (let i = 0; i < heartCount; i++) {
-                const heart = document.createElement('div');
-                heart.textContent = '❤️';
-                heart.classList.add('heart-animation');
-
-                // Позиционируем сердце относительно клика
-                const x = event.clientX;
-                const y = event.clientY;
-                heart.style.left = `${x}px`;
-                heart.style.top = `${y}px`;
-
-                // Добавляем случайные смещения и задержки
-                heart.style.animationDelay = `${Math.random() * 2}s`;
-                heart.style.transform = `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px)`;
-
-                // Добавляем сердце в body
-                document.body.appendChild(heart);
-
-                // Удаляем сердце после завершения анимации
-                heart.addEventListener('animationend', () => {
-                    heart.remove();
-                });
-            }
+        // Функция для показа сердечка
+        function showHeart() {
+            heartContainer.style.display = 'block';
         }
 
         // Вызываем функцию для создания цветов
