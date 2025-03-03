@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лучшей девушке</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 15px;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 0.3s forwards;
+            background: #ff6f61;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            font-style: italic;
+            color: #ff6f61;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 0.6s forwards;
+        }
+
+        .divider {
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(90deg, #ff6f61, #ffb6c1);
+            margin: 15px auto;
+            border-radius: 5px;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 0.9s forwards;
+        }
+
+        .photos {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .photo-frame {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            overflow: visible;
+            border: 3px solid #ff6f61;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .photo-frame:hover {
+            transform: scale(1.3);
+            z-index: 10;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease-out;
+        }
+
+        .compliments ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .compliments li {
+            font-size: 1rem;
+            margin: 8px 0;
+            line-height: 1.4;
+            color: #ff6f61;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 1.5s forwards;
+        }
+
+        footer {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #666;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 1.8s forwards;
+        }
+
+        .signature {
+            font-weight: bold;
+            color: #ff6f61;
+        }
+
+        .flowers {
+            font-size: 2rem;
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .flower {
+            opacity: 0;
+            animation: fadeInFlower 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeInFlower {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Стили для сердечка */
+        .heart-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            text-align: center;
+        }
+
+        .heart {
+            font-size: 10rem;
+            color: #ff6f61;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        .heart-message {
+            font-size: 1.5rem;
+            color: #ff6f61;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>С 8 Марта, <a href="https://vk.com/polly_dolly25" target="_blank" style="color: #ff6f61; text-decoration: none;">тебя! ❣</a></h1>
+        <p class="subtitle">Ты – как Wi-Fi: притягиваешь всех, даришь тепло и зависимость.</p>
+        <div class="divider"></div>
+
+        <section class="photos">
+            <div class="photo-frame"><img src="1.jpg" alt="Полина Мельникова"></div>
+            <div class="photo-frame"><img src="2.jpg" alt="Полина Мельникова"></div>
+            <div class="photo-frame"><img src="3.jpg" alt="Полина Мельникова"></div>
+        </section>
+
+        <h2>101 тюльпан тебе</h2>
+
+        <div class="flowers" id="flowersContainer"></div>
+
+        <p>Один тюльпан особенный!</p>
+
+        <footer>
+            <p>created by <span class="signature">babycar97🚗</span></p>
+        </footer>
+
+        <!-- Контейнер для сердечка -->
+        <div class="heart-container" id="heartContainer">
+            <div class="heart">❤️</div>
+        </div>
+    </div>
+
+    <script>
+        // Создаем контейнер для цветов
+        const flowersContainer = document.getElementById('flowersContainer');
+        const heartContainer = document.getElementById('heartContainer');
+        const totalFlowers = 101; // Количество цветов
+        const flowerSymbol = '🌷'; // Символ цветка
+
+        // Функция для создания цветов с анимацией
+        function createFlowers() {
+            const randomIndex = Math.floor(Math.random() * totalFlowers); // Выбираем случайный индекс
+
+            for (let i = 0; i < totalFlowers; i++) {
+                const flowerSpan = document.createElement('span');
+                flowerSpan.textContent = flowerSymbol;
+                flowerSpan.classList.add('flower');
+
+                // Добавляем задержку для каждого цветка
+                flowerSpan.style.animationDelay = `${i * 0.1}s`;
+
+                // Если это случайный цветок, делаем его ссылкой
+                if (i === randomIndex) {
+                    flowerSpan.style.cursor = 'pointer';
+                    flowerSpan.addEventListener('click', showHeart);
+                }
+
+                // Добавляем цветок в контейнер
+                flowersContainer.appendChild(flowerSpan);
+            }
+        }
+
+        // Функция для показа сердечка
+        function showHeart() {
+            heartContainer.style.display = 'block';
+        }
+
+        // Вызываем функцию для создания цветов
+        createFlowers();
+    </script>
+</body>
+</html>
